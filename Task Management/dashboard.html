@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task Dashboard</title>
     <link rel="stylesheet" href="dashboard.css">
 </head>
@@ -10,13 +12,14 @@
             <h1>Task Dashboard</h1>
         </header>
         <main>
-            <form id="task-form" class="task-form" action="task.php" method="POST">
+            <form id="task-form" class="task-form" action="#" method="POST">
                 <input type="text" id="new-task" placeholder="Add a new task" class="task-input" required>
-                <button type="submit" class="task-button" name="task_name">Add Task</button>
+                <button type="submit" class="task-button">Add Task</button>
             </form>
-            <ul id="task-list" class="task-list"></ul>
+            <ul id="task-list" class="task-list">
+            </ul>
         </main>
     </div>
     <script src="dashboard.js"></script>
-</body>
+</body> 
 </html>
