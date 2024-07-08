@@ -1,29 +1,49 @@
-document.getElementById('task-form').addEventListener('submit', function(event) {
-    event.preventDefault();
 
-    const taskInput = document.getElementById('new-task');
-    const taskName = taskInput.value;
+const taskForm = document.getElementById('task-form');
+const taskInput = document.getElementById('new-task');
+const taskList = document.getElementById('task-list');
 
-    fetch('task.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: 'task_name=' + encodeURIComponent(taskName)
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.status === 'success') {
-            const taskList = document.getElementById('task-list');
-            const newTask = document.createElement('li');
-            newTask.textContent = taskName;
-            taskList.appendChild(newTask);
-            taskInput.value = '';
-        } else {
-            alert('Error: ' + data.message);
+// Function to create a new task item
+function createTaskItem(taskName) {
+    const li = document.createElement('li');
+    li.innerHTML = `
+        <span>${taskName}</span>
+        <button class="edit-button">Edit</button>
+        <button class="delete-button">Delete</button>
+    `;
+    
+    //Edit button
+    const editButton = li.querySelector('.edit-button');
+    editButton.addEventListener('click', function() {
+        const newTaskName = prompt('Edit Task:', taskName);
+        if (newTaskName !== null && newTaskName.trim() !== '') {
+            li.querySelector('span').textContent = newTaskName;
         }
-    })
-    .catch(error => {
-        console.error('Error:', error);
     });
+    
+    // Delete button
+    const deleteButton = li.querySelector('.delete-button');
+    deleteButton.addEventListener('click', function() {
+        li.remove();
+    });
+    
+    return li;
+}
+
+// Function to add a task
+function addTask(taskName) {
+    const taskItem = createTaskItem(taskName);
+    taskList.appendChild(taskItem);
+}
+
+//Submit button
+taskForm.addEventListener('submit', function(event) {
+    event.preventDefault();
+    
+    const taskName = taskInput.value.trim();
+    
+    if (taskName !== '') {
+        addTask(taskName);
+        taskInput.value = ''; 
+    }
 });
